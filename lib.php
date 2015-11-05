@@ -112,4 +112,18 @@
         // url-encode the query string characters to work around a flash player bug
         return $stream_name;
     }
+    
+    public static function get_stream_name($video_path, $canned_policy) {
+        // the policy contains characters that cannot be part of a URL, so we base64 encode it
+        $encoded_policy = self::url_safe_base64_encode($canned_policy);
+        // sign the original policy, not the encoded version
+        $signature = self::rsa_sha1_sign($canned_policy);
+        // make the signature safe to be included in a url
+        $encoded_signature = self::url_safe_base64_encode($signature);
+
+        // combine the above into a stream name
+        $stream_name = self::create_stream_name($video_path, null, $encoded_signature, $expires);
+        // url-encode the query string characters to work around a flash player bug
+        return $stream_name;
+    }
 }
