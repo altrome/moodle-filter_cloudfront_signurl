@@ -85,9 +85,7 @@ require_once($CFG->dirroot.'/filter/cloudfront_signurl/lib.php');
 	    } else {
 		    $resource = preg_replace('~^cfx/st/mp4:([^ #"]*)','',$matches[3]);
 	    }
-	    $expires = time() + get_config('filter_cloudfront_signurl','validduration');
-	    $policy = '{"Statement":[{"Resource":"' . $resource . '","Condition":{"DateLessThan":{"AWS:EpochTime":'. $expires . '}}}]}';
 	    //return filter_cloudfront_signurl_urlsigner::get_canned_policy_stream_name($matches[0]);
-	    return filter_cloudfront_signurl_urlsigner::get_stream_name($matches[0], $policy);
+	    return filter_cloudfront_signurl_urlsigner::get_stream_name($matches[0], $resource);
    }
 }
