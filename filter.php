@@ -81,7 +81,7 @@ require_once($CFG->dirroot.'/filter/cloudfront_signurl/lib.php');
     
     private function callback(array $matches) {
 	    if ($matches[1] === 'rtmp') {
-		    preg_match('~^cfx/st/mp4:([^ #"]*).mp4~',$matches[3], $resmatch);
+		    preg_match('~^cfx/st/mp4:([^ #"]*)~',$matches[3], $resmatch);
 		    $resource = $resmatch[1];
 	    } else {
 		    $resource = $matches[0];
