@@ -68,7 +68,7 @@ require_once($CFG->dirroot.'/filter/cloudfront_signurl/lib.php');
 
         //$newtext = preg_replace_callback($re = '~(https?://'.$disturl.'/^( |#|"|\')*~is',
         //$newtext = preg_replace_callback($re = '~https?://('.$urlregex.')/[^ #"]*~is',
-        $newtext = preg_replace_callback($re = '~(https?|rtmp)://(s242zqsked1e86.cloudfront.net)/([^ #"]*)~is',
+        $newtext = preg_replace_callback($re = '~(https?|rtmp)://('.$urlregex.')/([^ #"]*)~is',
             array($this, 'callback'), $text);
         
         if (empty($newtext) or $newtext === $text) {
@@ -82,7 +82,7 @@ require_once($CFG->dirroot.'/filter/cloudfront_signurl/lib.php');
     private function callback(array $matches) {
 	    if (stripos($matches[1], 'http') === true) {
 		    $path = $matches[0];
-	    } else if (stripos($matches[1], 'rtpm') === true ) {
+	    } else if (stripos($matches[1], 'rtmp') === true ) {
 		    $path = $matches[3];
 	    }
 	    return filter_cloudfront_signurl_urlsigner::get_canned_policy_stream_name($path);    
