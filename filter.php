@@ -80,10 +80,10 @@ require_once($CFG->dirroot.'/filter/cloudfront_signurl/lib.php');
     }
     
     private function callback(array $matches) {
-	    if (stripos($text, 'http') === true) {
+	    if (stripos($matches[1], 'http') === true) {
 		    $resource = $matches[0];
 	    } else {
-		    $resource = preg_replace('~^cfx/st/mp4:([^ #"]*)','',$matches[3]);
+		    $resource = preg_replace('~^cfx/st/mp4:([^ #"]*)~','',$matches[3]);
 	    }
 	    //return filter_cloudfront_signurl_urlsigner::get_canned_policy_stream_name($matches[0]);
 	    return filter_cloudfront_signurl_urlsigner::get_stream_name($matches[0], $resource);

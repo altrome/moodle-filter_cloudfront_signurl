@@ -116,7 +116,7 @@
     public static function get_stream_name($video_path, $resource) {
         $expires = time() + get_config('filter_cloudfront_signurl','validduration');
         // this policy is well known by CloudFront, but you still need to sign it, since it contains your parameters
-	    $policy = '{"Statement":[{"Resource":"' . $resource . '","Condition":{"DateLessThan":{"AWS:EpochTime":'. $expires . '}}}]}';
+	    $canned_policy = '{"Statement":[{"Resource":"' . $resource . '","Condition":{"DateLessThan":{"AWS:EpochTime":'. $expires . '}}}]}';
         // the policy contains characters that cannot be part of a URL, so we base64 encode it
         $encoded_policy = self::url_safe_base64_encode($canned_policy);
         // sign the original policy, not the encoded version
