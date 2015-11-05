@@ -80,11 +80,6 @@ require_once($CFG->dirroot.'/filter/cloudfront_signurl/lib.php');
     }
     
     private function callback(array $matches) {
-	    if (stripos($matches[1], 'http') === true) {
-		    $path = $matches[0];
-	    } else if (stripos($matches[1], 'rtmp') === true ) {
-		    $path = $matches[3];
-	    }
-	    return filter_cloudfront_signurl_urlsigner::get_canned_policy_stream_name($path);    
+	    return filter_cloudfront_signurl_urlsigner::get_canned_policy_stream_name($matches[0]);    
    }
 }
