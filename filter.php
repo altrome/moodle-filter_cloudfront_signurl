@@ -48,7 +48,7 @@ require_once($CFG->dirroot.'/filter/cloudfront_signurl/lib.php');
             return $text;
         }
         
-        if (stripos($text, 'http') === false) {
+        if (stripos($text, 'http') === false || stripos($text, 'rtmp') === false) {
             // Performance shortcut - all regexes below contain http/https protocol,
             // if not present nothing can match.
             return $text;
@@ -59,7 +59,7 @@ require_once($CFG->dirroot.'/filter/cloudfront_signurl/lib.php');
 
         // Strip protocol and trailing / from disturl if present
         foreach ($urls as $disturl) {
-            $disturl = preg_replace('~^https?://|/$~','',$disturl);
+            $disturl = preg_replace('~^https?://|^rtmp://|/$~','',$disturl);
             if($disturl !== ''){
                 $regexurls[] = $disturl;
             }
@@ -67,7 +67,8 @@ require_once($CFG->dirroot.'/filter/cloudfront_signurl/lib.php');
         $urlregex = implode("|",$regexurls);
 
         //$newtext = preg_replace_callback($re = '~(https?://'.$disturl.'/^( |#|"|\')*~is',
-        $newtext = preg_replace_callback($re = '~https?://('.$urlregex.')/[^ #"]*~is',
+        //$newtext = preg_replace_callback($re = '~https?://('.$urlregex.')/[^ #"]*~is',
+        $newtext = preg_replace_callback($re = '~(https?|rtmp)://('.$urlregex.')/[^ #"]*~is',
             array($this, 'callback'), $text);
         
         if (empty($newtext) or $newtext === $text) {
